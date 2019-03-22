@@ -1,4 +1,5 @@
 # btcx
+<<<<<<< HEAD
 
 ## Project setup
 ```
@@ -27,3 +28,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+Education focused block explorer for Bitcoin.
+>>>>>>> bc102ae779ab9fad25814f8a9ead1661a91d13ca
