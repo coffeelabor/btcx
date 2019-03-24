@@ -2,47 +2,95 @@
   <div class="block-container">
     <div class="left">
       <div class="view-info">
-        <p class="block-view-info">This block is being displayed in <i>JSON</i> format. JSON is a way to format information for use with the JavaScript programming language. 
-          <br /><br />This is what a Bitcoin blocks fields might look like if you were developing an application using a block explorer API (as this application is).
-          <br /><br />
-          Click on the items <span class="info-text">underlined</span> in blue to learn more about them.
+        <p class="block-view-info">This block is being displayed in <i>JSON</i>. JSON is a way to format information for use with the JavaScript programming language.
+          <br /><br />This is what a Bitcoin block might look like if you were developing an application using a block explorer API (as this application is).
+          <br /><br />This more accuratly represents a raw Bitcoin block, but still has some modifications for ease of understanding.
+          <br /><br />Click on the items <span class="info-text">underlined</span> in blue to learn more about them.
         </p>
       </div>
     </div>
     <div class="center">
       <table class="block-header-table" ref="blockheadertable">
         <tr>
-<pre>{
-    <Info v-bind:infoType="InfoType.ProofOfWork">"hash"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.hash }}</Info>"
-    <Info v-bind:infoType="InfoType.Version">"version"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.version }}</Info>"
-    <Info v-bind:infoType="InfoType.Version">"previousblockhash"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.previousblockhash }}</Info>"
-    <Info v-bind:infoType="InfoType.Version">"merkleroot"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.merkleroot }}</Info>"
-    <Info v-bind:infoType="InfoType.Version">"time"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.time }}</Info>"
-    <Info v-bind:infoType="InfoType.Version">"bits"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.bits }}</Info>"
-    <Info v-bind:infoType="InfoType.Underlined">"nonce"</Info>: "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.nonce }}</Info>"
-}</pre>
+          <p class="block">{ <br />
+          <span class="span-twenty">
+            "<Info v-bind:infoType="InfoType.Version">version</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.version }}</Info>", <br />
+            "<Info v-bind:infoType="InfoType.Version">previousblockhash</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.previousblockhash }}</Info>", <br />
+            "<Info v-bind:infoType="InfoType.Version">merkleroot</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.merkleroot }}</Info>", <br />
+            "<Info v-bind:infoType="InfoType.Version">time</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.time }}</Info>", <br />
+            "<Info v-bind:infoType="InfoType.Version">bits</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.bits }}</Info>", <br />
+            "<Info v-bind:infoType="InfoType.Underlined">nonce</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.nonce }}</Info>", <br />
+          </span>
+          </p>
         </tr>
       </table>
-      <div class="block-body">
-        <table class="block-body-table" ref="blockbodytable">
-          <tr v-for="value in tx" :key="value.txid">
-            <td colspan="2">
-              <div>
-                Todo
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+      <table class="block-body-table" ref="blockheadertable">
+        <tr>
+          <p class="block">
+            <span class="span-twenty ">
+              "<Info v-bind:infoType="InfoType.Underlined">tansactions</Info>": [
+              <span class="span-ten" v-for="value in tx" :key="value.txid">
+                {
+                <span class="span-ten">
+                  "<Info v-bind:infoType="InfoType.ProofOfWork">version</Info>": "{{ value.version }}",
+                  <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": "{{ value.vin.length }}",
+                  <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": [
+                  <span class="span-ten" v-for="vin in value.vin" :key="vin.txid">
+                    {
+                    <br />
+                    <span class="span-twenty">
+                      "<Info v-bind:infoType="InfoType.ProofOfWork">previous_output</Info>": {
+                      <br />
+                      <span class="span-twenty">
+                        "<Info v-bind:infoType="InfoType.ProofOfWork">hash</Info>": "{{ vin.txid }}",
+                        <br />"<Info v-bind:infoType="InfoType.ProofOfWork">index</Info>": "{{ vin.n }}",
+                      </span>
+                      <br />}
+                      <br />
+                      <span v-if="value.isCoinBase != true">
+                        "<Info v-bind:infoType="InfoType.ProofOfWork">script_bytes</Info>": "{{ vin.scriptSig.hex.length }}",
+                        <br />"<Info v-bind:infoType="InfoType.ProofOfWork">signature_script</Info>": "{{ vin.scriptSig.asm }}",
+                      </span>
+                      <span v-else>
+                        "<Info v-bind:infoType="InfoType.ProofOfWork">coinbase</Info>": "{{ vin.coinbase }}",
+                      </span>
+                      <br />"<Info v-bind:infoType="InfoType.ProofOfWork">sequence</Info>": "{{ vin.sequence }}"
+                    </span>
+                    <br />},
+                  </span>
+                  <br />],
+                  <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": "{{ value.vout.length }}",
+                  <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": [
+                  <br /><span class="span-ten" v-for="vout in value.vout" v-bind:key="vout">
+                    {
+                    <br />
+                    <span class="span-twenty">
+                      "<Info v-bind:infoType="InfoType.ProofOfWork">value</Info>": "{{ vout.value }}",
+                      <br />"<Info v-bind:infoType="InfoType.ProofOfWork">pk_script_length</Info>": "{{ vout.scriptPubKey.hex.length }}",
+                      <br />"<Info v-bind:infoType="InfoType.ProofOfWork">pk_script</Info>": "{{ vout.scriptPubKey.asm }}",
+                    </span>
+                    <br />},
+                  </span>
+                  <br />]
+                  <br />"<Info v-bind:infoType="InfoType.ProofOfWork">lock_time</Info>": "{{ value.locktime }}"
+                </span>
+              <br />},
+              </span>
+              <br />]
+            </span>
+          }
+          </p>
+        </tr>
+      </table>
     </div>
     <div class="right">
       <div class="block-header-info">
-        <img src="../assets/images/brace.png" style="float: left;">
-        <h2 style="line-height: 150px;"><Info v-bind:infoType="InfoType.Version">Block Header</Info></h2>
+        <img src="../assets/images/arrow-right.png" width="64px" style="float: left;">
+        <h2><Info v-bind:infoType="InfoType.Version">Block Header</Info></h2>
       </div>
         <div class="block-body-info">
-        <img src="../assets/images/brace-lg.png" style="float: left;">
-        <h2 style="line-height: 500px;"><Info v-bind:infoType="InfoType.Version">Block Body</Info></h2>
+        <img src="../assets/images/arrow-right.png" height="64px" style="float: left;">
+        <h2><Info v-bind:infoType="InfoType.Version">Block Body</Info></h2>
       </div>
     </div>
     <InfoSharedPopup/>
@@ -51,7 +99,6 @@
 
 <script>
 const axios = require("axios");
-import Vue from "vue";
 import Info from "./Info.vue";
 import { InformationType } from "../Information";
 import InfoSharedPopup from "./InfoSharedPopup.vue"
@@ -93,6 +140,7 @@ export default {
             this.tx.push(response.data);
           });
       }
+      console.log(this.tx)
     },
     formatOutputAddr: function(txs) {
       var addr = "";
@@ -282,7 +330,7 @@ dd {
 }
 
 .block-header-info {
-  height: 100%;
+  height: 135px;
   color: #ffffff;
   text-align: left;
 }
@@ -293,7 +341,7 @@ dd {
 }
 
 .block-body-info {
-  height: 100%;
+  height: 500px;
   color: #ffffff;
   text-align: left;
 }
@@ -314,8 +362,15 @@ dd {
   border-spacing: 0;
   border-collapse: collapse;
   margin: 0 auto;
-  width: 777px;
-  margin-top: -1px;
+  width: 100%;
+  table-layout: fixed;
+  display: block;
+  height: 500px;
+  overflow: auto;
+margin-top: -1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #0a1014;
 }
 
 .block-header-table {
@@ -323,6 +378,15 @@ dd {
   border-spacing:0;
   border-collapse: collapse;
   margin: 0 auto;
+
+  overflow: auto;
+  width: 100% !important;
+  table-layout: fixed;
+  display: block;
+
+    border-style: solid;
+  border-width: 1px;
+  border-color: #0a1014;
 }
 
 .block-view-info {
@@ -336,5 +400,70 @@ dd {
 
 pre {
   color: #ffffff !important;
+  margin-bottom: 0px;
+}
+
+.span-tx {
+  display:inline-block;
+  padding-left: 60px;
+}
+
+.span-tx-start {
+  display:inline-block;
+  padding-left: 20px;
+}
+
+.span-vin {
+  display:inline-block;
+  padding-left: 40px;
+}
+
+.span-ten {
+  display:inline-block;
+  padding-left: 10px;
+  width: 100%;
+  font-size: 12px;
+}
+
+.span-twenty {
+  display:inline-block;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+span {
+  color: #ffffff;
+}
+
+.block {
+  color: #ffffff;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  font-size: 12px;
+}
+
+.block-header-info img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.block-header-info h2 {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.block-body-info img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.block-body-info h2 {
+  padding-left: 15px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

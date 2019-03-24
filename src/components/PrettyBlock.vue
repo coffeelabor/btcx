@@ -6,7 +6,7 @@
           This block has been formatted to display the various parts of a Bitcoin block in a way that easy for beginners to understand.
           <br>
           <br>Click on the items
-          <Info v-bind:infoType="InfoType.Underlined">underlined</Info>in blue to learn more about them.
+          <Info v-bind:infoType="InfoType.Underlined">underlined</Info> in blue to learn more about them.
         </p>
       </div>
     </div>

@@ -112,6 +112,7 @@ h1 {
   margin: 0;
   color: #fff;
   font-family: "Courier New", Courier, monospace !important;
+  padding-top: 30px;
   padding-bottom: 15px;
 }
 
