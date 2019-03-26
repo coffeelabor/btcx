@@ -2,9 +2,9 @@
     <div class="SideNav">
         <h1> BTCX </h1>
         <ul>
-            <li class="li-top-nav active" v-on:click="setActiveView(viewType.Pretty)">Pretty Format</li>
-            <li class="li-top-nav" v-on:click="setActiveView(viewType.JSON)">JSON Format</li>
-            <li class="li-top-nav" v-on:click="setActiveView(viewType.Hex)">HEX Format</li>
+            <router-link tag="li" class="li-top-nav" to="/block/pretty/">Pretty View</router-link>
+            <router-link tag="li" class="li-top-nav" to="/block/json/">JSON View</router-link>
+            <router-link tag="li" class="li-top-nav" to="/block/hex/">Hex View</router-link>
         </ul>
         <ul class="ul-bottom-nav">
             <li class="li-bottom-nav" v-on:click="show('modal-about')">About</li>
@@ -39,19 +39,14 @@
 <script>
 import Vue from "vue";
 import VModal from "vue-js-modal";
+
 Vue.use(VModal);
 
 export default {
   name: 'SideNav',
-  props: {
-    viewType: Object
-  },
   methods: {
     show(modal) {
       this.$modal.show(modal);
-    },
-    setActiveView(view) {
-      this.$emit('update', view);
     }
   }
 }
@@ -91,7 +86,7 @@ export default {
     border-left-style: solid;
 }
 
-.active {
+.router-link-active {
     background-color: #181C1F;
     cursor: pointer;
     border-image: linear-gradient( to bottom, #3FBAFF, #075793) 1 100%;
@@ -121,6 +116,7 @@ export default {
 
 ul {
     padding: 0px;
+    margin-top: 30px;
 }
 
 h1 {

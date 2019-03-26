@@ -85,11 +85,11 @@
     </div>
     <div class="right">
       <div class="block-header-info">
-        <img src="../assets/images/arrow-right.png" width="64px" style="float: left;">
+        <img src="../../assets/images/arrow-right.png" width="64px" style="float: left;">
         <h2><Info v-bind:infoType="InfoType.Version">Block Header</Info></h2>
       </div>
         <div class="block-body-info">
-        <img src="../assets/images/arrow-right.png" height="64px" style="float: left;">
+        <img src="../../assets/images/arrow-right.png" height="64px" style="float: left;">
         <h2><Info v-bind:infoType="InfoType.Version">Block Body</Info></h2>
       </div>
     </div>
@@ -99,15 +99,25 @@
 
 <script>
 const axios = require("axios");
-import Info from "./Info.vue";
-import { InformationType } from "../Information";
-import InfoSharedPopup from "./InfoSharedPopup.vue"
+import Info from "../Info.vue";
+import { InformationType } from "../../Information";
+import InfoSharedPopup from "../InfoSharedPopup.vue"
+
+const NUMBER_OF_TX_TO_DISPLAY = 20;
 
 export default {
-  name: "JSONBlock",
+  name: "BlockViewJson",
   components: {
     Info,
     InfoSharedPopup
+  },
+  props: [
+    'hash'
+  ],
+  watch: {
+    '$route' () {
+      this.GetBlockData();
+    }
   },
   data: function() {
     return {
@@ -132,15 +142,32 @@ export default {
       }
       this.activeHighlight = !(this.activeHighlight);
     },
+    GetBlockData() {
+      if(this.hash != undefined) {
+        axios.get("https://blockexplorer.com/api/block/" + this.hash)
+          .then(response => {
+            this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
+            this.block = response.data;
+            this.GetTxData();
+        });
+      }
+      else {
+        axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
+          var hash = response.data.hash;
+          this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
+          this.$router.push({ name: 'json', params: { hash } })
+        });
+      }
+    },
     GetTxData: function() {
-      for (var i = 0; i < 20; i++) {
+      this.tx = [];
+      for (var i = 0; i < NUMBER_OF_TX_TO_DISPLAY; i++) {
         axios
           .get("https://blockexplorer.com/api/tx/" + this.block.tx[i])
           .then(response => {
             this.tx.push(response.data);
           });
       }
-      console.log(this.tx)
     },
     formatOutputAddr: function(txs) {
       var addr = "";
@@ -174,16 +201,7 @@ export default {
     }
   },
   mounted() {
-    //axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
-    axios
-        .get(
-          "https://blockexplorer.com/api/block/" +
-            "0000000000000000000abeacccd9086605de0c7df750be6959dcfd6f3ee24c7d"
-        )
-        .then(response => {
-          this.block = response.data;
-          this.GetTxData();
-        });
+    this.GetBlockData();
   }
 };
 </script>

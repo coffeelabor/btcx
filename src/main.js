@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueTippy from "vue-tippy"
+import router from './router'
 
 Vue.use(VueTippy, {
   interactive: false,
@@ -20,5 +21,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 
 new Vue({
+  router,
   render: h => h(App),
+  components: {App}
 }).$mount('#app')

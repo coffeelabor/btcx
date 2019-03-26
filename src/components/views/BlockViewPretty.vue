@@ -84,13 +84,13 @@
     </div>
     <div class="right">
       <div class="block-header-info">
-        <img src="../assets/images/brace.png" style="float: left;">
+        <img src="../../assets/images/brace.png" style="float: left;">
         <h2 style="line-height: 150px;">
           <Info v-bind:infoType="InfoType.MerkleField">Block Header</Info>
         </h2>
       </div>
       <div class="block-body-info">
-        <img src="../assets/images/brace-lg.png" style="float: left;">
+        <img src="../../assets/images/brace-lg.png" style="float: left;">
         <h2 style="line-height: 500px;">
           <Info v-bind:infoType="InfoType.MerkleField">Block Body</Info>
         </h2>
@@ -102,15 +102,25 @@
 
 <script>
 const axios = require("axios");
-import { InformationType } from "../Information";
-import Info from "./Info.vue";
-import InfoSharedPopup from "./InfoSharedPopup.vue";
+import { InformationType } from "../../Information";
+import Info from "../Info.vue";
+import InfoSharedPopup from "../InfoSharedPopup.vue";
+
+const NUMBER_OF_TX_TO_DISPLAY = 20;
 
 export default {
-  name: "PrettyBlock",
+  name: "BlockViewPretty",
   components: {
     Info,
     InfoSharedPopup
+  },
+  props: [
+    'hash'
+  ],
+  watch: {
+    '$route' () {
+      this.GetBlockData();
+    }
   },
   data: function() {
     return {
@@ -129,8 +139,26 @@ export default {
       }
       this.activeHighlight = !this.activeHighlight;
     },
+    GetBlockData() {
+      if(this.hash != undefined) {
+        axios.get("https://blockexplorer.com/api/block/" + this.hash)
+          .then(response => {
+            this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
+            this.block = response.data;
+            this.GetTxData();
+        });
+      }
+      else {
+        axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
+          var hash = response.data.hash;
+          this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
+          this.$router.push({ name: 'pretty', params: { hash } })
+        });
+      }
+    },
     GetTxData: function() {
-      for (var i = 0; i < 20; i++) {
+      this.tx = [];
+      for (var i = 0; i < NUMBER_OF_TX_TO_DISPLAY; i++) {
         axios
           .get("https://blockexplorer.com/api/tx/" + this.block.tx[i])
           .then(response => {
@@ -168,15 +196,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get(
-        "https://blockexplorer.com/api/block/" +
-          "0000000000000000000abeacccd9086605de0c7df750be6959dcfd6f3ee24c7d"
-      ) // Hard coded for now
-      .then(response => {
-        this.block = response.data;
-        this.GetTxData();
-      });
+    this.GetBlockData();
   }
 };
 </script>
