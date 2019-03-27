@@ -141,8 +141,9 @@ export default {
     },
     GetBlockData() {
       if(this.hash != undefined) {
-        axios.get("https://blockexplorer.com/api/block/" + this.hash)
-          .then(response => {
+        this.block = {};
+        this.tx = [];
+        axios.get("https://blockexplorer.com/api/block/" + this.hash).then(response => {
             this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
             this.block = response.data;
             this.GetTxData();
@@ -157,14 +158,13 @@ export default {
       }
     },
     GetTxData: function() {
-      this.tx = [];
-      for (var i = 0; i < NUMBER_OF_TX_TO_DISPLAY; i++) {
-        axios
-          .get("https://blockexplorer.com/api/tx/" + this.block.tx[i])
-          .then(response => {
-            this.tx.push(response.data);
-          });
-      }
+      var txIds = this.block.tx.slice(0, NUMBER_OF_TX_TO_DISPLAY).map(txId => axios.get("https://blockexplorer.com/api/tx/" + txId))
+      axios.all(txIds).then(response => {
+        //TODO: Add error checking
+        response.forEach(element => {
+          this.tx.push(element.data)
+        });
+      })
     },
     formatOutputAddr: function(txs) {
       var addr = "";
