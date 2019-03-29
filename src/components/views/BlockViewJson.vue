@@ -148,8 +148,8 @@ export default {
         });
       }
       else {
-        axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
-          var hash = response.data.previous_hash //Trying to get the latest block seemed to introduce API issues
+        axios.get("https://blockexplorer.com/api/status?q=getBestBlockHash").then(response => {
+          var hash = response.data.bestblockhash
           this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
           this.$router.push({ name: 'json', params: { hash } })
         });
