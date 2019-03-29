@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import BlockViewer from '../components/BlockViewer.vue'
 import BlockViewPretty from "../components/views/BlockViewPretty.vue";
 import BlockViewJson from "../components/views/BlockViewJson.vue";
+import BlockViewHex from "../components/views/BlockViewHex.vue";
 
 Vue.use(VueRouter);
 
@@ -18,7 +19,7 @@ const router = new VueRouter({
           path: 'json/:hash?', component: BlockViewJson, name: 'json', props: true
         },
         {
-          path: 'hex/:hash?', component: BlockViewJson, name: 'hex'
+          path: 'hex/:hash?', component: BlockViewHex, name: 'hex', props: true
         },
         {
           path: '', redirect: '/block/pretty/'
