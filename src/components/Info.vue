@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import { GetInformation } from "../Information";
 
 export default {
@@ -13,11 +12,6 @@ export default {
   props: {
     infoType: Number,
     highlight: Boolean
-  },
-  data: function() {
-    return {
-      Info: null
-    };
   },
   methods: {
     GetInfo: function() {
