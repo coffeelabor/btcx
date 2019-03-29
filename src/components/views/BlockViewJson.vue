@@ -24,7 +24,7 @@
           </p>
         </tr>
       </table>
-      <table class="block-body-table" ref="blockheadertable">
+      <table class="block-body-table" ref="blockbodytable">
         <tr>
           <p class="block">
             <span class="span-twenty ">
@@ -85,12 +85,14 @@
     </div>
     <div class="right">
       <div class="block-header-info">
-        <img src="../../assets/images/arrow-right.png" width="64px" style="float: left;">
-        <h2><Info v-bind:infoType="InfoType.Version">Block Header</Info></h2>
+        <h2 @mouseenter="highlight('blockheadertable')" @mouseleave="highlight('blockheadertable')">
+          <Info v-bind:infoType="InfoType.Version">Block Header</Info>
+        </h2>
       </div>
         <div class="block-body-info">
-        <img src="../../assets/images/arrow-right.png" height="64px" style="float: left;">
-        <h2><Info v-bind:infoType="InfoType.Version">Block Body</Info></h2>
+        <h2 @mouseenter="highlight('blockbodytable')" @mouseleave="highlight('blockbodytable')">
+          <Info v-bind:infoType="InfoType.Version">Block Body</Info>
+        </h2>
       </div>
     </div>
     <InfoSharedPopup/>
@@ -104,6 +106,8 @@ import { InformationType } from "../../Information";
 import InfoSharedPopup from "../InfoSharedPopup.vue"
 
 const NUMBER_OF_TX_TO_DISPLAY = 20;
+const BG_DEFAULT_COLOR = "#182028";
+const BG_HOVER_COLOR = "#181c1f";
 
 export default {
   name: "BlockViewJson",
@@ -122,25 +126,15 @@ export default {
   data: function() {
     return {
       block: {},
-      blockHeader: [],
       tx: [],
-      Info: {
-        Title: "",
-        Content: ""
-      },
       InfoType: InformationType,
       activeHighlight: false
     };
   },
   methods: {
     highlight: function(ref) {
-      if(this.activeHighlight) {
-        this.$refs[ref].style.background = '#182028';
-      }
-      else {
-        this.$refs[ref].style.background = '#181c1f';
-      }
-      this.activeHighlight = !(this.activeHighlight);
+      this.$refs[ref].style.background = this.highlighted ? BG_DEFAULT_COLOR : BG_HOVER_COLOR
+      this.highlighted = !this.highlighted;
     },
     GetBlockData() {
       if(this.hash != undefined) {
@@ -155,7 +149,7 @@ export default {
       }
       else {
         axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
-          var hash = response.data.hash;
+          var hash = response.data.previous_hash //Trying to get the latest block seemed to introduce API issues
           this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
           this.$router.push({ name: 'json', params: { hash } })
         });
@@ -168,6 +162,7 @@ export default {
         response.forEach(element => {
           this.tx.push(element.data)
         });
+        this.$emit('hideLoader');
       })
     },
     formatOutputAddr: function(txs) {
@@ -354,11 +349,6 @@ dd {
   text-align: left;
 }
 
-.block-header-info h2 {
-  margin-bottom: 0px;
-  line-height: 500px;
-}
-
 .block-body-info {
   height: 500px;
   color: #ffffff;
@@ -469,6 +459,7 @@ span {
 
 .block-header-info h2 {
   position: relative;
+  padding-left: 25px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -480,8 +471,8 @@ span {
 }
 
 .block-body-info h2 {
-  padding-left: 15px;
   position: relative;
+  padding-left: 25px;
   top: 50%;
   transform: translateY(-50%);
 }

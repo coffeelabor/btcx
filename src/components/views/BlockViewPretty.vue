@@ -84,14 +84,12 @@
     </div>
     <div class="right">
       <div class="block-header-info">
-        <img src="../../assets/images/brace.png" style="float: left;">
-        <h2 style="line-height: 150px;">
+        <h2 @mouseenter="highlight('blockheadertable')" @mouseleave="highlight('blockheadertable')">
           <Info v-bind:infoType="InfoType.MerkleField">Block Header</Info>
         </h2>
       </div>
       <div class="block-body-info">
-        <img src="../../assets/images/brace-lg.png" style="float: left;">
-        <h2 style="line-height: 500px;">
+        <h2 @mouseenter="highlight('blockbodytable')" @mouseleave="highlight('blockbodytable')">
           <Info v-bind:infoType="InfoType.MerkleField">Block Body</Info>
         </h2>
       </div>
@@ -107,6 +105,8 @@ import Info from "../Info.vue";
 import InfoSharedPopup from "../InfoSharedPopup.vue";
 
 const NUMBER_OF_TX_TO_DISPLAY = 20;
+const BG_DEFAULT_COLOR = "#182028";
+const BG_HOVER_COLOR = "#181c1f";
 
 export default {
   name: "BlockViewPretty",
@@ -127,17 +127,13 @@ export default {
       block: {},
       tx: [],
       InfoType: InformationType,
-      activeHighlight: false
+      highlighted: false,
     };
   },
   methods: {
     highlight: function(ref) {
-      if (this.activeHighlight) {
-        this.$refs[ref].style.background = "#182028";
-      } else {
-        this.$refs[ref].style.background = "#181c1f";
-      }
-      this.activeHighlight = !this.activeHighlight;
+      this.$refs[ref].style.background = this.highlighted ? BG_DEFAULT_COLOR : BG_HOVER_COLOR
+      this.highlighted = !this.highlighted;
     },
     GetBlockData() {
       if(this.hash != undefined) {
@@ -151,7 +147,7 @@ export default {
       }
       else {
         axios.get("https://api.blockcypher.com/v1/btc/main").then(response => {
-          var hash = response.data.hash;
+          var hash = response.data.previous_hash //Trying to get the latest block seemed to introduce API issues
           this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
           this.$router.push({ name: 'pretty', params: { hash } })
         });
@@ -164,6 +160,8 @@ export default {
         response.forEach(element => {
           this.tx.push(element.data)
         });
+
+        this.$emit('hideLoader');
       })
     },
     formatOutputAddr: function(txs) {
@@ -341,18 +339,27 @@ dd {
 }
 
 .block-header-info {
-  height: 100%;
+  height: 135px;
   color: #ffffff;
   text-align: left;
 }
 
 .block-header-info h2 {
-  margin-bottom: 0px;
-  line-height: 500px;
+  position: relative;
+  padding-left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.block-body-info h2 {
+  position: relative;
+  padding-left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .block-body-info {
-  height: 100%;
+  height: 500px;
   color: #ffffff;
   text-align: left;
 }
