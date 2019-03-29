@@ -35,7 +35,7 @@
                   "<Info v-bind:infoType="InfoType.ProofOfWork">version</Info>": "{{ value.version }}",
                   <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": "{{ value.vin.length }}",
                   <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": [
-                  <span class="span-ten" v-for="vin in value.vin" :key="vin.txid">
+                  <span class="span-ten" v-for="(vin, index) in value.vin" :key="index + vin.txid">
                     {
                     <br />
                     <span class="span-twenty">
@@ -61,7 +61,7 @@
                   <br />],
                   <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": "{{ value.vout.length }}",
                   <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": [
-                  <br /><span class="span-ten" v-for="vout in value.vout" v-bind:key="vout">
+                  <br /><span class="span-ten" v-for="(vout, index) in value.vout" v-bind:key="index">
                     {
                     <br />
                     <span class="span-twenty">

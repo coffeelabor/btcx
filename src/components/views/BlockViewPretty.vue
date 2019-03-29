@@ -47,7 +47,7 @@
                     <Info v-bind:infoType="InfoType.ProofOfWork">TX ID</Info>
                   </dt>
                   <dd>{{ value.txid }}</dd>
-                  <div v-for="vin in value.vin" :key="vin.txid">
+                  <div v-for="(vin, index) in value.vin" :key="index + vin.txid">
                     <dt class="tx-info">
                       <Info v-bind:infoType="InfoType.ProofOfWork">From</Info>
                     </dt>
@@ -57,7 +57,7 @@
                       : {{ formatValue(vin.value) }} BTC
                     </dd>
                   </div>
-                  <div v-for="vout in value.vout" :key="vout.addr">
+                  <div v-for="(vout, index) in value.vout" :key="index">
                     <dt class="tx-info">
                       <Info v-bind:infoType="InfoType.ProofOfWork">To</Info>
                     </dt>
