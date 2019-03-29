@@ -1,5 +1,5 @@
 <template>
-  <span class="learn-more" @show="GetInfo" v-tippy="{ html: '#InfoSharedPopup' }">
+  <span class="learn-more" v-bind:class="{ highlight: highlight }" @show="GetInfo" v-tippy="{ html: '#InfoSharedPopup' }">
     <slot></slot>
   </span>
 </template>
@@ -11,7 +11,8 @@ import { GetInformation } from "../Information";
 export default {
   name: "Info",
   props: {
-    infoType: Number
+    infoType: Number,
+    highlight: Boolean
   },
   data: function() {
     return {
@@ -32,5 +33,9 @@ export default {
   text-decoration-style: dotted;
   text-decoration-line: underline;
   text-decoration-color: #01b7f0;
+}
+
+.highlight:hover {
+  background-color: #4e4e4e;
 }
 </style>

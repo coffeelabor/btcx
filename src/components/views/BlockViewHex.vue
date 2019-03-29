@@ -13,12 +13,12 @@
         <tr>
           <td class="wrap-text">
             <p class="block">
-              <Info v-bind:infoType="InfoType.Version">{{ blockHeader.version }}</Info>
-              <br /><Info v-bind:infoType="InfoType.Version">{{ blockHeader.prevBlockHash }}</Info>
-              <br /><Info v-bind:infoType="InfoType.Version">{{ blockHeader.merkleRoot }}</Info>
-              <br /><Info v-bind:infoType="InfoType.Version">{{ blockHeader.time }}</Info>
-              <br /><Info v-bind:infoType="InfoType.Version">{{ blockHeader.bits }}</Info>
-              <br /><Info v-bind:infoType="InfoType.Version">{{ blockHeader.nonce }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.version }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.prevBlockHash }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.merkleRoot }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.time }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.bits }}</Info>
+              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.nonce }}</Info>
             </p>
           </td>
         </tr>
