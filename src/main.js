@@ -5,7 +5,7 @@ import VueTippy from "vue-tippy"
 import router from './router'
 
 Vue.use(VueTippy, {
-  interactive: false,
+  interactive: true,
   arrow: true,
   arrowTransform: "scale(1.5)",
   trigger: "click",

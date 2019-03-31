@@ -4,7 +4,7 @@
       <h3 v-if="info != null">{{ info.title }}</h3>
     </div>
     <div class="popup-content">
-      <p v-if="info != null">{{ info.content }}</p>
+      <p v-if="info != null" v-html="info.content">{{ info.content }}</p>
     </div>
   </div>
 </template>
@@ -56,12 +56,12 @@ export default {
 }
 
 .tippy-tooltip.btc-theme {
-  /* Your styling here. Example: */
   background-color: #1e262b;
   border: 1px solid #4f5762;
   box-shadow: rgb(0, 0, 0) 0px 0px 20px;
   border-radius: 5px;
   padding: 0px;
+  max-width: 700px;
 }
 
 .tippy-popper[x-placement^="bottom"] .tippy-tooltip.btc-theme .tippy-arrow {
