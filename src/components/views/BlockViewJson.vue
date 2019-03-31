@@ -4,12 +4,12 @@
       <tr>
         <p>{ <br />
         <span class="padding-twenty">
-          "<Info v-bind:infoType="InfoType.Version">version</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.version }}</Info>", <br />
-          "<Info v-bind:infoType="InfoType.Version">previousblockhash</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.previousblockhash }}</Info>", <br />
-          "<Info v-bind:infoType="InfoType.Version">merkleroot</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.merkleroot }}</Info>", <br />
-          "<Info v-bind:infoType="InfoType.Version">time</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.time }}</Info>", <br />
-          "<Info v-bind:infoType="InfoType.Version">bits</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.bits }}</Info>", <br />
-          "<Info v-bind:infoType="InfoType.Underlined">nonce</Info>": "<Info v-bind:infoType="InfoType.ProofOfWork">{{ block.nonce }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldVersion">version</Info>": "<Info v-bind:infoType="InfoType.HeaderValueVersion">{{ block.version }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldPrevHash">previousblockhash</Info>": "<Info v-bind:infoType="InfoType.HeaderValuePrevHash">{{ block.previousblockhash }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldMerkle">merkleroot</Info>": "<Info v-bind:infoType="InfoType.HeaderValueMerkle">{{ block.merkleroot }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldTime">time</Info>": "<Info v-bind:infoType="InfoType.HeaderValueTime">{{ block.time }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldTarget">bits</Info>": "<Info v-bind:infoType="InfoType.HeaderValueTarget">{{ block.bits }}</Info>", <br />
+          "<Info v-bind:infoType="InfoType.HeaderFieldNonce">nonce</Info>": "<Info v-bind:infoType="InfoType.HeaderValueNonce">{{ block.nonce }}</Info>", <br />
         </span>
         </p>
       </tr>
@@ -18,51 +18,51 @@
       <tr>
         <p>
           <span class="padding-twenty">
-            "<Info v-bind:infoType="InfoType.Underlined">tansactions</Info>": [
+            "<Info v-bind:infoType="InfoType.JsonViewTx">tansactions</Info>": [
             <span class="padding-ten" v-for="value in tx" :key="value.txid">
               {
               <span class="padding-ten">
-                "<Info v-bind:infoType="InfoType.ProofOfWork">version</Info>": "{{ value.version }}",
-                <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": "{{ value.vin.length }}",
-                <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_in</Info>": [
+                "<Info v-bind:infoType="InfoType.JsonViewTxVersion">version</Info>": "{{ value.version }}",
+                <br />"<Info v-bind:infoType="InfoType.JsonViewTxIn">tx_in</Info>": "{{ value.vin.length }}",
+                <br />"<Info v-bind:infoType="InfoType.JsonViewTxInArr">tx_in</Info>": [
                 <span class="padding-ten" v-for="(vin, index) in value.vin" :key="index + vin.txid">
                   {
                   <br />
                   <span class="padding-twenty">
-                    "<Info v-bind:infoType="InfoType.ProofOfWork">previous_output</Info>": {
+                    "<Info v-bind:infoType="InfoType.JsonViewTxInPrevOut">previous_output</Info>": {
                     <br />
                     <span class="padding-twenty">
-                      "<Info v-bind:infoType="InfoType.ProofOfWork">hash</Info>": "{{ vin.txid }}",
-                      <br />"<Info v-bind:infoType="InfoType.ProofOfWork">index</Info>": "{{ vin.n }}",
+                      "<Info v-bind:infoType="InfoType.JsonViewTxInPrevOutHash">hash</Info>": "{{ vin.txid }}",
+                      <br />"<Info v-bind:infoType="InfoType.JsonViewPrevOutIndex">index</Info>": "{{ vin.n }}",
                     </span>
                     <br />}
                     <br />
                     <span v-if="value.isCoinBase != true">
-                      "<Info v-bind:infoType="InfoType.ProofOfWork">script_bytes</Info>": "{{ vin.scriptSig.hex.length }}",
-                      <br />"<Info v-bind:infoType="InfoType.ProofOfWork">signature_script</Info>": "{{ vin.scriptSig.asm }}",
+                      "<Info v-bind:infoType="InfoType.JsonViewTxInScriptBytes">script_bytes</Info>": "{{ vin.scriptSig.hex.length }}",
+                      <br />"<Info v-bind:infoType="InfoType.JsonViewTxInSigScript">signature_script</Info>": "{{ vin.scriptSig.asm }}",
                     </span>
                     <span v-else>
-                      "<Info v-bind:infoType="InfoType.ProofOfWork">coinbase</Info>": "{{ vin.coinbase }}",
+                      "<Info v-bind:infoType="InfoType.JsonViewTxInCoinbase">coinbase</Info>": "{{ vin.coinbase }}",
                     </span>
-                    <br />"<Info v-bind:infoType="InfoType.ProofOfWork">sequence</Info>": "{{ vin.sequence }}"
+                    <br />"<Info v-bind:infoType="InfoType.JsonViewTxInSequence">sequence</Info>": "{{ vin.sequence }}"
                   </span>
                   <br />},
                 </span>
                 <br />],
-                <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": "{{ value.vout.length }}",
-                <br />"<Info v-bind:infoType="InfoType.ProofOfWork">tx_out</Info>": [
+                <br />"<Info v-bind:infoType="InfoType.JsonViewTxOut">tx_out</Info>": "{{ value.vout.length }}",
+                <br />"<Info v-bind:infoType="InfoType.JsonViewTxOutArr">tx_out</Info>": [
                 <br /><span class="padding-ten" v-for="(vout, index) in value.vout" v-bind:key="index">
                   {
                   <br />
                   <span class="padding-twenty">
-                    "<Info v-bind:infoType="InfoType.ProofOfWork">value</Info>": "{{ vout.value }}",
-                    <br />"<Info v-bind:infoType="InfoType.ProofOfWork">pk_script_length</Info>": "{{ vout.scriptPubKey.hex.length }}",
-                    <br />"<Info v-bind:infoType="InfoType.ProofOfWork">pk_script</Info>": "{{ vout.scriptPubKey.asm }}",
+                    "<Info v-bind:infoType="InfoType.JsonViewTxOutValue">value</Info>": "{{ vout.value }}",
+                    <br />"<Info v-bind:infoType="InfoType.JsonViewTxOutScriptLen">pk_script_length</Info>": "{{ vout.scriptPubKey.hex.length }}",
+                    <br />"<Info v-bind:infoType="InfoType.JsonViewTxOutScript">pk_script</Info>": "{{ vout.scriptPubKey.asm }}",
                   </span>
                   <br />},
                 </span>
                 <br />]
-                <br />"<Info v-bind:infoType="InfoType.ProofOfWork">lock_time</Info>": "{{ value.locktime }}"
+                <br />"<Info v-bind:infoType="InfoType.JsonViewTxLockTime">lock_time</Info>": "{{ value.locktime }}"
               </span>
             <br />},
             </span>
@@ -115,7 +115,17 @@ export default {
             this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
             this.block = response.data;
             this.GetTxData();
-        });
+          })
+          .catch(error => {
+            if(error.response) {
+              console.log(error.response.data);
+            } else if(error.request) {
+              console.log(error.request);
+            } else  {
+              console.log(error.message);
+            }
+            alert('Error loading data! Please refresh page, or try again later.')
+          });
       }
       else {
         axios.get("https://blockexplorer.com/api/status?q=getBestBlockHash").then(response => {
@@ -128,12 +138,21 @@ export default {
     GetTxData: function() {
       var txIds = this.block.tx.slice(0, NUMBER_OF_TX_TO_DISPLAY).map(txId => axios.get("https://blockexplorer.com/api/tx/" + txId))
       axios.all(txIds).then(response => {
-        //TODO: Add error checking
         response.forEach(element => {
           this.tx.push(element.data)
         });
         this.$emit('hideLoader');
       })
+      .catch(error => {
+        if(error.response) {
+          console.log(error.response.data);
+        } else if(error.request) {
+          console.log(error.request);
+        } else  {
+          console.log(error.message);
+        }
+        alert('Error loading data! Please refresh page, or try again later.')
+      });
     }
   },
   mounted() {

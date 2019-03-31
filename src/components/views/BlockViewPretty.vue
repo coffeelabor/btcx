@@ -2,28 +2,28 @@
   <div>
     <table class="block-header-table" ref="blockheadertable">
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Version</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.version }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldVersion">Version</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValueVersion">{{ block.version }}</Info></td>
       </tr>
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Previous Block Hash</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.previousblockhash }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldPrevHash">Previous Block Hash</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValuePrevHash">{{ block.previousblockhash }}</Info></td>
       </tr>
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Merkel Root Hash</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.merkleroot }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldMerkle">Merkel Root Hash</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValueMerkle">{{ block.merkleroot }}</Info></td>
       </tr>
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Time</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.time }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldTime">Time</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValueTime">{{ block.time }}</Info></td>
       </tr>
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Block Target</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.bits }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldTarget">Block Target</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValueTarget">{{ block.bits }}</Info></td>
       </tr>
       <tr>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">Nonce</Info></td>
-        <td><Info v-bind:infoType="InfoType.ProofOfWork">{{ block.nonce }}</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderFieldNonce">Nonce</Info></td>
+        <td><Info v-bind:infoType="InfoType.HeaderValueNonce">{{ block.nonce }}</Info></td>
       </tr>
     </table>
     <div class="block-body-container">
@@ -32,33 +32,33 @@
           <td>
             <dl>
               <dt>
-                <Info v-bind:infoType="InfoType.ProofOfWork">TX ID</Info>
+                <Info v-bind:infoType="InfoType.PrettyViewTxId">TX ID</Info>
               </dt>
               <dd>{{ value.txid }}</dd>
               <div v-for="(vin, index) in value.vin" :key="index + vin.txid">
                 <dt class="tx-info">
-                  <Info v-bind:infoType="InfoType.ProofOfWork">From</Info>
+                  <Info v-bind:infoType="InfoType.PrettyViewFrom">From</Info>
                 </dt>
                 <dd>{{ formatInputAddr(vin.addr) }} -
-                  <Info v-bind:infoType="InfoType.ProofOfWork">Amount</Info>
+                  <Info v-bind:infoType="InfoType.PrettyViewAmount">Amount</Info>
                   : {{ formatValue(vin.value) }} BTC
                 </dd>
               </div>
               <div v-for="(vout, index) in value.vout" :key="index">
                 <dt class="tx-info">
-                  <Info v-bind:infoType="InfoType.ProofOfWork">To</Info>
+                  <Info v-bind:infoType="InfoType.PrettyViewTo">To</Info>
                 </dt>
                 <dd>{{ formatOutputAddr(vout.scriptPubKey.addresses) }} -
-                  <Info v-bind:infoType="InfoType.ProofOfWork">Amount</Info>
+                  <Info v-bind:infoType="InfoType.PrettyViewAmount">Amount</Info>
                   : {{ vout.value }} BTC
                 </dd>
               </div>
               <dt class="tx-info">
-                <Info v-bind:infoType="InfoType.ProofOfWork">Fee</Info>
+                <Info v-bind:infoType="InfoType.PrettyViewFee">Fee</Info>
               </dt>
               <dd>{{ formatValue(value.fees) }} BTC</dd>
               <dt class="tx-info">
-                <Info v-bind:infoType="InfoType.ProofOfWork">Size</Info>
+                <Info v-bind:infoType="InfoType.PrettyViewSize">Size</Info>
               </dt>
               <dd>{{ value.size }} bytes</dd>
             </dl>
@@ -108,6 +108,16 @@ export default {
             this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
             this.block = response.data;
             this.GetTxData();
+        })
+        .catch(error => {
+          if(error.response) {
+            console.log(error.response.data);
+          } else if(error.request) {
+            console.log(error.request);
+          } else  {
+            console.log(error.message);
+          }
+          alert('Error loading data! Please refresh page, or try again later.')
         });
       }
       else {
@@ -115,6 +125,16 @@ export default {
           var hash = response.data.bestblockhash
           this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
           this.$router.push({ name: 'pretty', params: { hash } })
+        })
+        .catch(error => {
+          if(error.response) {
+            console.log(error.response.data);
+          } else if(error.request) {
+            console.log(error.request);
+          } else  {
+            console.log(error.message);
+          }
+          alert('Error loading data! Please refresh page, or try again later.')
         });
       }
     },
@@ -128,6 +148,16 @@ export default {
 
         this.$emit('hideLoader');
       })
+      .catch(error => {
+        if(error.response) {
+          console.log(error.response.data);
+        } else if(error.request) {
+          console.log(error.request);
+        } else  {
+          console.log(error.message);
+        }
+        alert('Error loading data! Please refresh page, or try again later.')
+      });
     },
     formatOutputAddr: function(txs) {
       var addr = "";

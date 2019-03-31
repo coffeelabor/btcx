@@ -6,7 +6,7 @@
     <div>
       <h1>Block #{{ height }}</h1>
       <h3>Proof-of-Work:
-        <br><Info v-bind:infoType="InfoType.MerkleField">{{ hash }}</Info>
+        <br><Info v-bind:infoType="InfoType.HeaderProofOfWork">{{ hash }}</Info>
       </h3>
     </div>
     <div>
@@ -32,12 +32,12 @@
       <div class="right">
         <div class="block-header-info">
           <h2 class="center-h2" @mouseenter="highlight('blockheadertable')" @mouseleave="highlight('blockheadertable')">
-            <Info v-bind:infoType="InfoType.MerkleField">Block Header</Info>
+            <Info v-bind:infoType="InfoType.BlockHeader">Block Header</Info>
           </h2>
         </div>
         <div class="block-body-info">
           <h2 class="center-h2" @mouseenter="highlight('blockbodytable')" @mouseleave="highlight('blockbodytable')">
-            <Info v-bind:infoType="InfoType.MerkleField">Block Body</Info>
+            <Info v-bind:infoType="InfoType.BlockBody">Block Body</Info>
           </h2>
         </div>
       </div>

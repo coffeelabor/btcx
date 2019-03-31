@@ -4,12 +4,12 @@
         <tr>
           <td>
             <p>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.version }}</Info>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.prevBlockHash }}</Info>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.merkleRoot }}</Info>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.time }}</Info>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.bits }}</Info>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockHeader.nonce }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewVersion" v-bind:highlight="true">{{ blockHeader.version }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewPrevHash" v-bind:highlight="true">{{ blockHeader.prevBlockHash }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewMerkle" v-bind:highlight="true">{{ blockHeader.merkleRoot }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewTime" v-bind:highlight="true">{{ blockHeader.time }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewTarget" v-bind:highlight="true">{{ blockHeader.bits }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewNonce" v-bind:highlight="true">{{ blockHeader.nonce }}</Info>
             </p>
           </td>
         </tr>
@@ -18,7 +18,7 @@
         <tr>
           <td>
             <p>
-              <Info v-bind:infoType="InfoType.Version" v-bind:highlight="true">{{ blockBody }}</Info>
+              <Info v-bind:infoType="InfoType.HexViewTx" v-bind:highlight="true">{{ blockBody }}</Info>
             </p>
           </td>
         </tr>
@@ -66,7 +66,17 @@ export default {
               .then(response => {
                 this.$emit('UpdateBlockDisplay', response.data.hash, response.data.height);
                 this.$emit('hideLoader');
-            });
+            })
+            .catch(error => {
+              if(error.response) {
+                console.log(error.response.data);
+              } else if(error.request) {
+                console.log(error.request);
+              } else  {
+                console.log(error.message);
+              }
+              alert('Error loading data! Please refresh page, or try again later.')
+            })
 
             this.blockHeader = {
               version: response.data.rawblock.substring(0,8),
@@ -77,7 +87,17 @@ export default {
               nonce: response.data.rawblock.substring(152,160),
             }
             this.blockBody = response.data.rawblock.substring(160);
-        });
+        })
+        .catch(error => {
+          if(error.response) {
+            console.log(error.response.data);
+          } else if(error.request) {
+            console.log(error.request);
+          } else  {
+            console.log(error.message);
+          }
+          alert('Error loading data! Please refresh page, or try again later.')
+        })
       }
       else {
         axios.get("https://blockexplorer.com/api/status?q=getBestBlockHash").then(response => {
