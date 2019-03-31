@@ -17,10 +17,10 @@
           </p>
           <p v-if="currentRoute == 'json'">This block is being displayed in <i>JSON</i>. JSON is a way to format information for use with the JavaScript programming language.
             <br /><br />This is what a Bitcoin block might look like if you were developing an application using a block explorer API (as this application is).
-            <br /><br />This more accuratly represents a raw Bitcoin block, but still has some modifications for ease of understanding.
+            <br /><br />This more accurately represents a raw Bitcoin block, but still has some modifications for ease of understanding.
             <br /><br />Click on the items <Info v-bind:infoType="InfoType.Underlined">underlined</Info> in blue to learn more about them.
           </p>
-          <p v-if="currentRoute == 'hex'">This block is being desplayed in hex format, which is the most accurate representation of a raw Bitcoin block that is still human readable.
+          <p v-if="currentRoute == 'hex'">This block is being displayed in hex format, which is the most accurate representation of a raw Bitcoin block that is still human readable.
             <br /><br />Actual Bitcoin blocks are stored in compressed binary format.
             <br /><br />Click on the items <Info v-bind:infoType="InfoType.Underlined">underlined</Info> in blue to learn more about them.
           </p>
