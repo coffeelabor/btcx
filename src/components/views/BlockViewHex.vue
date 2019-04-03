@@ -155,6 +155,6 @@ p {
   margin-top: 3px;
   margin-bottom: 3px;
   font-size: 12px;
-  width: 730px;
+  width: 725px;
 }
 </style>

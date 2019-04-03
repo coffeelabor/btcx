@@ -12,7 +12,7 @@
     <div>
       <div class="left">
         <div class="view-info">
-          <p v-if="currentRoute == 'pretty'">This block has been formatted to display the various parts of a Bitcoin block in a way that easy for beginners to understand.
+          <p v-if="currentRoute == 'pretty'">This block has been formatted to display the various parts of a Bitcoin block in a way that is easy for beginners to understand.
             <br /><br />Click on the items <Info v-bind:infoType="InfoType.Underlined">underlined</Info> in blue to learn more about them.
           </p>
           <p v-if="currentRoute == 'json'">This block is being displayed in <i>JSON</i>. JSON is a way to format information for use with the JavaScript programming language.
