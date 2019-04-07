@@ -52,7 +52,7 @@
               <li><a href="https://twitter.com/tannerrogers7" target="_blank">Follow me on Twitter</a></li>
               <li><a href="https://github.com/TannerR1776/btcx" target="_blank">Star this project on Github</a></li>
               <li>Donate BTC: <span class="address">14FFBGBESq7ZbbG7wJrVeHE31xvh4MsvHM</span></li>
-              <li>Donate Satoshi's (tippin.me): <span>Coming soon!</span></li>
+              <li>Donate Satoshi's: <a href="https://tippin.me/@TannerRogers7" target="_blank">tippin.me/@TannerRogers7</a></li>
             </ul>
           </div>
         </modal>
