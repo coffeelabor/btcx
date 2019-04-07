@@ -72,7 +72,6 @@
         </p>
       </tr>
     </table>
-    <InfoSharedPopup/>
   </div>
 </template>
 

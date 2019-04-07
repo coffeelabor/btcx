@@ -66,7 +66,6 @@
         </tr>
       </table>
     </div>
-    <InfoSharedPopup/>
   </div>
 </template>
 

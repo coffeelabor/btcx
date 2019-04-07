@@ -1,29 +1,28 @@
 <template>
-    <div>
-      <table class="block-header-table" ref="blockheadertable">
-        <tr>
-          <td>
-            <p>
-              <Info v-bind:infoType="InfoType.HexViewVersion" v-bind:highlight="true">{{ blockHeader.version }}</Info>
-              <Info v-bind:infoType="InfoType.HexViewPrevHash" v-bind:highlight="true">{{ blockHeader.prevBlockHash }}</Info>
-              <Info v-bind:infoType="InfoType.HexViewMerkle" v-bind:highlight="true">{{ blockHeader.merkleRoot }}</Info>
-              <Info v-bind:infoType="InfoType.HexViewTime" v-bind:highlight="true">{{ blockHeader.time }}</Info>
-              <Info v-bind:infoType="InfoType.HexViewTarget" v-bind:highlight="true">{{ blockHeader.bits }}</Info>
-              <Info v-bind:infoType="InfoType.HexViewNonce" v-bind:highlight="true">{{ blockHeader.nonce }}</Info>
-            </p>
-          </td>
-        </tr>
-      </table>
-      <table class="block-body-table" ref="blockbodytable">
-        <tr>
-          <td>
-            <p>
-              <Info v-bind:infoType="InfoType.HexViewTx" v-bind:highlight="true">{{ blockBody }}</Info>
-            </p>
-          </td>
-        </tr>
-      </table>
-    <InfoSharedPopup/>
+  <div>
+    <table class="block-header-table" ref="blockheadertable">
+      <tr>
+        <td>
+          <p>
+            <Info v-bind:infoType="InfoType.HexViewVersion" v-bind:highlight="true">{{ blockHeader.version }}</Info>
+            <Info v-bind:infoType="InfoType.HexViewPrevHash" v-bind:highlight="true">{{ blockHeader.prevBlockHash }}</Info>
+            <Info v-bind:infoType="InfoType.HexViewMerkle" v-bind:highlight="true">{{ blockHeader.merkleRoot }}</Info>
+            <Info v-bind:infoType="InfoType.HexViewTime" v-bind:highlight="true">{{ blockHeader.time }}</Info>
+            <Info v-bind:infoType="InfoType.HexViewTarget" v-bind:highlight="true">{{ blockHeader.bits }}</Info>
+            <Info v-bind:infoType="InfoType.HexViewNonce" v-bind:highlight="true">{{ blockHeader.nonce }}</Info>
+          </p>
+        </td>
+      </tr>
+    </table>
+    <table class="block-body-table" ref="blockbodytable">
+      <tr>
+        <td>
+          <p>
+            <Info v-bind:infoType="InfoType.HexViewTx" v-bind:highlight="true">{{ blockBody }}</Info>
+          </p>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
