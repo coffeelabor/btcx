@@ -1,6 +1,4 @@
 # BTCX
-
-# About
 BTCX is an education focused block explorer for Bitcoin. 
 
 There seems to be a large gap between those who understand how Bitcoin works under the hood, and those who don't. I created this project as a way to help shrink that gap.
