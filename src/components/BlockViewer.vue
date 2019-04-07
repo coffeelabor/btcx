@@ -1,15 +1,15 @@
 <template>
-  <div class="block-container">
+  <div class="block-viewer">
     <div v-if="loaderVisible" class="overlay">
-      <div class="lds-dual-ring"></div>
+      <div class="lds-dual-ring" v-bind:class="{ 'lds-dual-ring-nav-menu': fullNavMenu }"></div>
     </div>
-    <div>
-      <h1>Block #{{ height }}</h1>
+    <div class="pow-container">
+      <h1 class="block-height">Block #{{ height }}</h1>
       <h3>Proof-of-Work:
         <br><Info v-bind:infoType="InfoType.HeaderProofOfWork">{{ hash }}</Info>
       </h3>
     </div>
-    <div>
+    <div class="block-container">
       <div class="left">
         <div class="view-info">
           <p v-if="currentRoute == 'pretty'">This block has been formatted to display the various parts of a Bitcoin block in a way that is easy for beginners to understand.
@@ -74,10 +74,16 @@ export default {
     return {
       hash: '',
       height: '',
+      fullNavMenu: true,
       loaderVisible: true,
       highlighted: false,
       InfoType: InformationType
     };
+  },
+  created() {
+    window.EventBus.$on("toggleNav", fullNavMenu => {
+      this.fullNavMenu = fullNavMenu
+    });
   },
   methods: {
     UpdateBlockDisplay(hash, height) {
@@ -112,10 +118,19 @@ export default {
 .lds-dual-ring {
   width: 50px;
   height: 50px;
+  margin-top: -25px;  /* half of height, to actually center div */
+  margin-left: -25px; /* half of width,  to actually center div */
   position: fixed;
   top: 50%;
-  left: 56%;
+  left: 50%;
 }
+
+.lds-dual-ring-nav-menu {
+  margin-left: 125px; /* This centers the circle when the menu is open */
+                      /* 125 = Menu Width / 2 + Current Margin-Left    */
+                      /* (300/2)+(-25) = 125px                         */
+}
+
 .lds-dual-ring:after {
   content: " ";
   display: block;
@@ -138,27 +153,55 @@ export default {
 }
 /*END CSS LOADER*/
 
-.block-container {
+.block-viewer {
   width: 100%;
+  overflow: auto;
 }
 
 .left {
   width: 25%;
-  float: left;
+  display: inline-block;
+  margin: 0 auto;
+  vertical-align: top;
   padding-left: 35px;
   padding-right: 35px;
 }
 
 .center {
-  width: 50%;
+  width:750px;
   display: inline-block;
+  margin: 0 auto;
+  vertical-align: top;
 }
 
 .right {
   width: 25%;
-  float: right;
+  display: inline-block;
+  margin: 0 auto;
+  vertical-align: top;
   padding-left: 35px;
   padding-right: 35px;
+}
+
+.block-height {
+  margin: 0;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace !important;
+  padding-top: 55px;
+  padding-bottom: 15px;
+}
+
+.block-container, .pow-container {
+  padding-left: 20px;
+}
+
+@media (max-width: 1550px) {
+  .block-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .left, .center, .pow-container { width: 750px; padding-left: 0; padding-right: 0px; padding-bottom: 20px; margin: auto;}
+  .right { display: none; }
 }
 
 .view-info {
@@ -191,14 +234,6 @@ export default {
 
 p {
   margin-bottom: 0px;
-}
-
-h1 {
-  margin: 0;
-  color: #fff;
-  font-family: "Courier New", Courier, monospace !important;
-  padding-top: 30px;
-  padding-bottom: 15px;
 }
 
 h3 {
